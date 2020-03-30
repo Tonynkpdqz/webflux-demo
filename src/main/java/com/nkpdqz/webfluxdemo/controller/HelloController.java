@@ -1,12 +1,10 @@
 package com.nkpdqz.webfluxdemo.controller;
 
 import com.nkpdqz.webfluxdemo.Service.UserService;
+import com.nkpdqz.webfluxdemo.Valid.APIException;
 import com.nkpdqz.webfluxdemo.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Mono;
 
@@ -20,8 +18,8 @@ public class HelloController {
     UserService service;
 
     @GetMapping("mono")
-    public Mono<MyResponse<String>> hello(){
-        return Mono.just(new MyResponse<String>("hello webflux!"));
+    public Mono<String> hello(){
+        return Mono.just("hello webflux!");
     }
 
     @PostMapping("addUser")
@@ -36,4 +34,23 @@ public class HelloController {
         return Mono.just(new MyResponse<User>(user));
     }
 
+    @GetMapping("testNotValid")
+    public User testValidExceptionHandler(@Valid User user){
+        return user;
+    }
+
+    @GetMapping("testControllerAdvice")
+    public User testControllerAdvice(String name){
+        return new User(11L,name,"123123123","nl@163.com");
+    }
+
+    @GetMapping("testStringAdvice")
+    public String testStringAdvice(){
+        return "hello!";
+    }
+
+    @GetMapping("testNullAdvice")
+    public String testNullAdvice() throws Exception {
+        throw new APIException("test error.");
+    }
 }
