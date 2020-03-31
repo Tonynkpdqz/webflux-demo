@@ -11,6 +11,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import reactor.core.publisher.Flux;
 
 
 @RestControllerAdvice(basePackages = {"com.nkpdqz.webfluxdemo.controller"})
@@ -26,6 +27,9 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
         if (o instanceof String) {
             return JSON.toJSONString(new MyResponse<>(o));
         }
+//        if (o instanceof String[]){
+//            return JSON.toJSONString(new MyResponse<>(o));
+//        }
         if (o instanceof MyResponse){
             return o;
         }
